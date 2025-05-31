@@ -44,8 +44,8 @@ model Gym {
   title       String
   description String?
   phone       String?
-  latitude    Float
-  longitude   Float
+  latitude    Decimal
+  longitude   Decimal
   createdAt   DateTime @default(now())
 
   checkIns CheckIn[]
