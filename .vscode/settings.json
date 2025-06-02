@@ -1,3 +1,9 @@
 {
-  "conventionalCommits.scopes": ["use case", "repository", "utils", "docs"]
+  "conventionalCommits.scopes": [
+    "use case",
+    "repository",
+    "utils",
+    "docs",
+    "vscode setting"
+  ]
 }
