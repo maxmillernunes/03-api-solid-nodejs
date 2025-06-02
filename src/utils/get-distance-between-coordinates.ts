@@ -3,6 +3,12 @@ export interface Coordinate {
   longitude: number
 }
 
+/**
+ * Calculates the distance between two geographical coordinates using the Haversine formula.
+ * @param from - The starting coordinate with latitude and longitude.
+ * @param to - The destination coordinate with latitude and longitude.
+ * @returns The distance in kilometers between the two coordinates.
+ */
 export function getDistanceBetweenCoordinates(
   from: Coordinate,
   to: Coordinate
