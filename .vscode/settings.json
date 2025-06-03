@@ -4,6 +4,7 @@
     "repository",
     "utils",
     "docs",
-    "vscode setting"
+    "vscode setting",
+    "errors"
   ]
 }
