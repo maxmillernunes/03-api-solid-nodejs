@@ -5,6 +5,7 @@
     "utils",
     "docs",
     "vscode setting",
-    "errors"
+    "errors",
+    "controller"
   ]
 }
