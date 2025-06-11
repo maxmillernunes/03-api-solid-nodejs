@@ -6,6 +6,7 @@ import { env } from './env'
 
 export const app = fastify()
 
+/** Using the fastifyJWT to work JWT to generate Authenticate from user */
 app.register(fastifyJwt, { secret: env.JWT_SECRET })
 
 app.register(appRoutes)

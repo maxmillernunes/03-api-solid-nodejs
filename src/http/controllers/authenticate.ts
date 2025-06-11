@@ -22,6 +22,7 @@ export async function authenticate(
       password,
     })
 
+    /** Generate token JWT to user authenticate */
     const token = await reply.jwtSign({}, { sign: { sub: user.id } })
 
     return reply.status(200).send({ token })
