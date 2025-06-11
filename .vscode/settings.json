@@ -6,6 +6,7 @@
     "docs",
     "vscode setting",
     "errors",
-    "controller"
+    "controller",
+    "middlewares"
   ]
 }
