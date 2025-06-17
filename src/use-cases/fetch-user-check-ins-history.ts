@@ -17,10 +17,12 @@ export class FetchUserCheckInsHistoryUseCase {
   async execute({
     userId,
     page,
+    pageSize,
   }: FetchUserCheckInsHistoryUseCaseRequest): Promise<FetchUserCheckInsHistoryUseCaseResponse> {
     const checkIns = await this.checkInsRepository.findManyByUserId(
       userId,
-      page
+      page,
+      pageSize
     )
 
     return {
