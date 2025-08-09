@@ -1,31 +1,31 @@
 import request from 'supertest'
-import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { app } from '@/app'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
 
 describe('Create Gym (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
 
-  afterEach(async () => {
+  afterAll(async () => {
     await app.close()
   })
 
-  it('Should be able to authenticate', async () => {
-    await request(app.server).post('/users').send({
-      name: 'john doe',
-      email: 'johndoe@gmail.com',
-      password: 'asdqwe',
-    })
+  it('should be able to create a new gym', async () => {
+    const { token } = await createAndAuthenticateUser(app)
 
-    const response = await request(app.server).post('/sessions').send({
-      email: 'johndoe@gmail.com',
-      password: 'asdqwe',
-    })
+    const gymResponse = await request(app.server)
+      .post('/gyms')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        title: 'JavaScript Gym',
+        description: 'A gym for JavaScript enthusiasts',
+        phone: '1234567890',
+        latitude: -6.0511893,
+        longitude: -38.4534453,
+      })
 
-    expect(response.statusCode).toEqual(200)
-    expect(response.body).toEqual({
-      token: expect.any(String),
-    })
+    expect(gymResponse.statusCode).toEqual(201)
   })
 })
