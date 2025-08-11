@@ -1,5 +1,6 @@
 import fastify from 'fastify'
 import fastifyJwt from '@fastify/jwt'
+import fastifyCookie from '@fastify/cookie'
 import { ZodError } from 'zod'
 
 import { env } from './env'
@@ -10,7 +11,18 @@ import { checkInsRoutes } from './http/controllers/check-ins/routes'
 export const app = fastify()
 
 /** Using the fastifyJWT to work JWT to generate Authenticate from user */
-app.register(fastifyJwt, { secret: env.JWT_SECRET })
+app.register(fastifyJwt, {
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  secret: env.JWT_SECRET,
+  sign: {
+    expiresIn: '10m',
+  },
+})
+
+app.register(fastifyCookie)
 
 app.register(usersRoutes)
 app.register(gymsRoutes)
