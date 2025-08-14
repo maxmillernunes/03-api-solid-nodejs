@@ -74,7 +74,7 @@ jobs:
         run: npm ci --prefer-offline
 
       - name: Run Unit Tests
-        run: npm run test:unit
+        run: npm run test
 
       - name: Calculate Unit Test duration
         run: |
