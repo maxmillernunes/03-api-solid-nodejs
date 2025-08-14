@@ -34,11 +34,17 @@ jobs:
       - name: Run Build
         run: npm run build
 
-      - name: Save Build duration
+      - name: Calculate Build duration
         run: |
           END_TIME=$(date +%s)
           DURATION=$((END_TIME - START_TIME))
-          echo "BUILD_DURATION=$DURATION" >> $GITHUB_ENV
+          echo "DURATION=$DURATION" >> $GITHUB_ENV
+          MIN=$((DURATION/60))
+          SEC=$((DURATION%60))
+          echo "## 🚀 Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status | Duration |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Build | ${{ job.status }} | ${MIN}m ${SEC}s |" >> $GITHUB_STEP_SUMMARY
 
   unit-tests:
     name: Unit Tests
@@ -68,28 +74,16 @@ jobs:
         run: npm ci --prefer-offline
 
       - name: Run Unit Tests
-        run: npm run test
+        run: npm run test:unit
 
-      - name: Save Unit Test duration
+      - name: Calculate Unit Test duration
         run: |
           END_TIME=$(date +%s)
           DURATION=$((END_TIME - START_TIME))
-          echo "UNIT_DURATION=$DURATION" >> $GITHUB_ENV
-
-  summary:
-    name: Build + Unit Tests Summary
-    runs-on: ubuntu-latest
-    needs: [build, unit-tests]
-    if: always()
-    steps:
-      - name: Generate Summary
-        run: |
-          echo "## 🚀 Build + Unit Tests Summary" >> $GITHUB_STEP_SUMMARY
+          echo "DURATION=$DURATION" >> $GITHUB_ENV
+          MIN=$((DURATION/60))
+          SEC=$((DURATION%60))
+          echo "## 🚀 Unit Tests Summary" >> $GITHUB_STEP_SUMMARY
           echo "| Job | Status | Duration |" >> $GITHUB_STEP_SUMMARY
           echo "|-----|--------|---------|" >> $GITHUB_STEP_SUMMARY
-          BUILD_MIN=$((needs.build.outputs.BUILD_DURATION/60))
-          BUILD_SEC=$((needs.build.outputs.BUILD_DURATION%60))
-          UNIT_MIN=$((needs['unit-tests'].outputs.UNIT_DURATION/60))
-          UNIT_SEC=$((needs['unit-tests'].outputs.UNIT_DURATION%60))
-          echo "| Build | ${{ needs.build.result }} | ${BUILD_MIN}m ${BUILD_SEC}s |" >> $GITHUB_STEP_SUMMARY
-          echo "| Unit Tests | ${{ needs['unit-tests'].result }} | ${UNIT_MIN}m ${UNIT_SEC}s |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit Tests | ${{ job.status }} | ${MIN}m ${SEC}s |" >> $GITHUB_STEP_SUMMARY
