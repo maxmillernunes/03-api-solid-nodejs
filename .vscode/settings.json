@@ -9,6 +9,7 @@
     "controller",
     "middlewares",
     "test",
-    "dependency"
+    "dependency",
+    "migrations"
   ]
 }
